@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import '../styles/Header.css';
 import { Link } from "react-router-dom";
-import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,11 +24,7 @@ export default function Header() {
           <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
           <li><Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link></li>
         </nav>
-        <div className="user-desktop">
-          <SignedIn>
-            <UserButton afterSignOutUrl="/sign-in" />
-          </SignedIn>
-        </div>
+        
       </header>
       {/* {menuOpen && <div className="menu-overlay" onClick={() => setMenuOpen(false)}></div>} */}
     </>
