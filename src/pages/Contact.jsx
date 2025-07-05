@@ -2,10 +2,10 @@ import React from 'react';
 import '../styles/Contact.css'; 
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-// CSS file hum next step mein banayenge
-
 export default function Contact(){
+  console.log("contact component loadeed successfully")
   return (
+
     <motion.section className="contact-section"
              initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

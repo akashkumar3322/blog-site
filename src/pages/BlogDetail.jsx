@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import '../styles/BlogDetail.css';
-
 export default function BlogDetail() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -60,7 +59,7 @@ export default function BlogDetail() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.6 }}
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html:post.content }}
       />
 
       {/* External Link */}
