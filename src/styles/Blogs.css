@@ -1,0 +1,26 @@
+.news-container {
+  padding: 20px;
+}
+
+.news-card {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.news-card img {
+  max-width: 100%;
+  height: auto;
+  margin: 10px 0;
+}
+
+.news-card h3 {
+  color: #222;
+}
+
+.news-card a {
+  color: blue;
+  text-decoration: underline;
+}
