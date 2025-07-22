@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.32.4",
+    "@sanity/client": "^7.6.0",
     "framer-motion": "^12.23.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
-    "react-spinners": "^0.17.0"
+    "react-spinners": "^0.17.0",
+    "sweetalert2": "^11.6.13",
+    "tailwindcss": "^4.1.11",
+    "vision": "^5.4.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

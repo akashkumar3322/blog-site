@@ -4,8 +4,13 @@
   text-align: center;
   height: 90vh;
   display: flex;
+  background: url('../assets/blog-img.png');
+  object-fit:cover;
+  width: 100%;
+  background-repeat: no-repeat;
   justify-content: center;
   align-items: center;
+  background-size: 100%;
   border-bottom: 2px solid #ddd;
 }
 
@@ -24,7 +29,7 @@
 
 /* Auto writer animation span */
 .blogs-intro h2 .auto-writer {
-  color: #0077cc;
+  color: #0d75dd;
   font-weight: bold;
 }
 
@@ -50,6 +55,9 @@
 
 /* Responsive styles */
 @media(max-width: 768px) {
+   .blogs-intro{
+    background-size: 160vh;
+   }
   .blogs-intro h2 {
     font-size: 29px;
   }

@@ -4,59 +4,73 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom"; 
 import "../styles/Blogs.css"; 
-const  GoogleAPIKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+const GoogleAPIKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const newsAPIKey = import.meta.env.VITE_NEWS_API_KEY;
+
 export default function Blogs() {
   const [bloggerPosts, setBloggerPosts] = useState([]);
   const [newsPosts, setNewsPosts] = useState([]);
   const [loading, setLoading] = useState(true); 
+
   useEffect(() => {
-    Promise.all([
-      fetch(`https://www.googleapis.com/blogger/v3/blogs/10861780/posts?key=${GoogleAPIKey}`)
-        .then(res => res.json())
-        .then(data => {
-          const posts = data.items || [];
-          const filtered = posts
-            .map((post) => {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(post.content, "text/html");
-              const img = doc.querySelector("img");
-              const imgsrc = img?.getAttribute('src');
-              if (!img || !imgsrc) return null;
+    const fetchData = async () => {
+      try {
+        const [bloggerRes, newsRes] = await Promise.all([
+          fetch(`https://www.googleapis.com/blogger/v3/blogs/10861780/posts?key=${GoogleAPIKey}`),
+          fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=${newsAPIKey}`)
+        ]);
 
-              return {
-                id: post.id,
-                title: post.title,
-                image: imgsrc,
-                content: post.content,
-                link: post.url,
-                source: "Blogger"
-              };
-            })
-            .filter(Boolean);
-          setBloggerPosts(filtered);
-        }),
+        const bloggerData = await bloggerRes.json();
+        const newsData = await newsRes.json();
 
-      fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=${newsAPIKey}`)
-        .then(res => res.json())
-        .then(data => {
-          const articles = data.articles || [];
-          const filtered = articles.filter(article => article.urlToImage)
-            .map(article => ({
-              id: btoa(article.url),
-              title: article.title,
-              image: article.urlToImage,
-              link: article.url,
-              source: "NewsAPI"
-            }));
-          setNewsPosts(filtered);
-        })
-    ]).finally(() => setLoading(false)); // when both fetch complete
+        // 📝 Filter Blogger posts
+        const bloggerFiltered = (bloggerData.items || [])
+          .map((post) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(post.content, "text/html");
+            const img = doc.querySelector("img");
+            const imgsrc = img?.getAttribute("src");
+            if (!img || !imgsrc) return null;
+
+            return {
+              id: post.id,
+              title: post.title,
+              image: imgsrc,
+              content: post.content,
+              link: post.url,
+              source: "Blogger",
+            };
+          })
+          .filter(Boolean);
+
+        setBloggerPosts(bloggerFiltered);
+
+        // 📰 Filter NewsAPI posts
+        const newsFiltered = (newsData.articles || [])
+          .filter((article) => article.urlToImage)
+          .map((article) => ({
+            id: btoa(article.url),
+            title: article.title,
+            image: article.urlToImage,
+            link: article.url,
+            source: "NewsAPI",
+          }));
+
+        setNewsPosts(newsFiltered);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const allPosts = [...bloggerPosts, ...newsPosts];
 
-  if (loading) return <Loader />; // ✅ show loader while loading
+  if (loading) return <Loader />;
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
